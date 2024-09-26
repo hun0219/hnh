@@ -5,6 +5,7 @@ from transformers import pipeline
 import io
 from fastapi import Request
 from fastapi.templating import Jinja2Templates
+from hnh.util import get_max_label, get_score, get_max_label2
 
 app = FastAPI()
 
@@ -39,13 +40,22 @@ async def create_upload_file(file: UploadFile):
 
     from PIL import Image
     img = Image.open(io.BytesIO(img)) # 이미지를 바이트로 PIL 이미지로 변환
-    predictions = model(img)
+    p = model(img)
+    
 
-    label = get_max_label(p)
+    if get_max_label2(p) >= 0.8:
+        label = "hot dog"
+    else:
+        label = "not hot dog"
+
+    #label = get_max_label(p)
+    #label = get_max_label2(p)
+    
+    
 
     # 의존성 모듈 설치해서 오류 없이 서버 가동
     # if p 값이 배열과 같이 나오면 높은 확률의 값을 추출해서 리턴하기
 
-    return {"Hello": predictions}
+    return {"label": label, "Hello": p}
 
 

@@ -6,7 +6,7 @@
 #            highest = pred
 #    return highest['label']
 
-def get_max_score(p):
+def get_max_label(p):
   max_score = 0
   max_label = ""
   for item in p:
@@ -20,11 +20,17 @@ def get_score(item):
   return item['score']
 
 
-def get_max_score2(p):
-  max_p = max(p, key=get_score)
-  return max_p['label']
+def get_max_label2(p):
+    max_p = max(p, key=get_score)
+    #if max_p['score'] >= 0.8:
+    #    label = "hot dog"
+    #else:
+    #    label = "not hot dog"
+    #return label
+    #return max_p['label']
+    return max_p['score']
 
 
-def get_max_score3(p):
+def get_max_label3(p):
   max_p = max(p, key=lambda x: x['score'])
   return max_p['label']
